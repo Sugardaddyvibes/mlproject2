@@ -46,6 +46,20 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y jq unzip
+      - name: Verify Secret Visibility
+        run: |
+          echo "Checking if secrets are being passed to the runner..."
+          if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+            echo "❌ ERROR: AWS_ACCESS_KEY_ID is EMPTY/NULL"
+          else
+            echo "✅ SUCCESS: AWS_ACCESS_KEY_ID is populated"
+          fi
+          
+          if [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+            echo "❌ ERROR: AWS_SECRET_ACCESS_KEY is EMPTY/NULL"
+          else
+            echo "✅ SUCCESS: AWS_SECRET_ACCESS_KEY is populated"
+          fi
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
