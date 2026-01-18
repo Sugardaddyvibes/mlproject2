@@ -6,6 +6,9 @@ on:
       - main
     paths-ignore:
       - README.md
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -34,10 +37,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Docker is already installed on GitHub-hosted runners
+      - name: Verify Docker
+        run: docker --version
+
       - name: Install Utilities
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq unzip docker.io
+          sudo apt-get install -y jq unzip
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
