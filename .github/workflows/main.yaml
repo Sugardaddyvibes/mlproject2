@@ -46,6 +46,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y jq unzip
+      - name: Debug Secrets
+        run: |
+          if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+            echo "AWS_ACCESS_KEY_ID is EMPTY"
+          else
+            echo "AWS_ACCESS_KEY_ID is FOUND"
+          fi
+          if [ -z "${{ secrets.AWS_REGION }}" ]; then
+            echo "AWS_REGION is EMPTY"
+          else
+            echo "AWS_REGION is FOUND"
+          fi
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -67,6 +79,7 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
   continuous-deployment:
     name: Continuous Deployment
