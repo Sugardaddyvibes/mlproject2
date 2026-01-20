@@ -1,5 +1,17 @@
+# Dependency folders (The biggest space hogs)
 venv/
+env/
+.env
+bin/
+lib/
+share/
+
+# Git history (Can be 100MB+)
 .git/
+.gitignore
+
+# Python cache (Small but messy)
 __pycache__/
 *.pyc
-.env
+*.pyo
+*.pyd
